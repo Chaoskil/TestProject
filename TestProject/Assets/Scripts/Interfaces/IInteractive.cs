@@ -4,5 +4,8 @@
 
 public interface IInteractive
 {
-    void InteractWith(); 
+
+    string DisplayText { get; }
+
+    void InteractWith();
 }

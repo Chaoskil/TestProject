@@ -1,23 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
-/// Detects when the player presses the Interact button while looking at an IInteractive,
-/// and then calls that IInteractive's InteractWith method.
+/// This UI text displays info about the currently looked at interactive IInteractive.
+/// The text should be hidden if the player is not currently looking at an interactive element.
 /// </summary>
-public class InteractWithLookedAt : MonoBehaviour
+public class LookedAtInteractiveDisplayText : MonoBehaviour
 {
     private IInteractive lookedAtInteractive;
+    private Text displayText;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        if (Input.GetButton("Interact") && lookedAtInteractive != null)
+        displayText = GetComponent<Text>();
+        UpdateDisplayText();
+    }
+
+    private void UpdateDisplayText()
+    {
+        if(lookedAtInteractive != null)
         {
-            Debug.Log("Player pressed the Interact button");
-            lookedAtInteractive.InteractWith();
+            displayText.text = lookedAtInteractive.DisplayText;
         }
+        else
+        {
+            displayText.text = string.Empty;
+        }
+        
     }
 
     /// <summary>
@@ -27,6 +38,7 @@ public class InteractWithLookedAt : MonoBehaviour
     private void OnLookedAtInteractiveChanged(IInteractive newLookedAtInteractive)
     {
         lookedAtInteractive = newLookedAtInteractive;
+        UpdateDisplayText();
     }
 
     #region Event subscription / unsubscription 
@@ -40,4 +52,5 @@ public class InteractWithLookedAt : MonoBehaviour
         DetectLookedAtInteractive.LookedAtInteractiveChanged -= OnLookedAtInteractiveChanged;
     }
     #endregion
+
 }
