@@ -12,18 +12,18 @@ public class InteractiveObject : MonoBehaviour, IInteractive
     [SerializeField]
     private bool needsFlashlight;
 
-    [SerializeField]
-    private GameObject thisobject;
+    //[SerializeField]
+   // private GameObject thisobject;
 
     public virtual string DisplayText => displayText;
     protected AudioSource audioSource;
 
     private void Update()
     {
-        if(needsFlashlight == true)
-        {
-            thisobject.SetActive(false);
-        }
+       // if(needsFlashlight == true)
+       // {
+       //     thisobject.SetActive(false);
+       // }
     }
 
     protected virtual void Awake()
