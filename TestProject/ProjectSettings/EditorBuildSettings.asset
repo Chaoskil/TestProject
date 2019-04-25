@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Title Screen.unity
     guid: c53028f226a28bc4095c5bcb3e2c44de
   - enabled: 0
-    path: Assets/Scenes/Credits.unity
-    guid: 8a16f7e3ea1c48343b6ce5be3d1db6d4
-  - enabled: 1
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Scenes/Script Test Scene.unity
     guid: 2fcbc8072b8045d4f896c8bea9a3dcfe
+  - enabled: 1
+    path: Assets/Scenes/Level123.unity
+    guid: 18c723a159346e441b10ba1f5486c575
   m_configObjects: {}
