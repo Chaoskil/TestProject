@@ -47,7 +47,8 @@ public class Door : InteractiveObject
     private Animator animator;
     private bool isOpen = false;
     private bool isLocked;
-    private int shouldOpen = Animator.StringToHash("shouldOpen"); 
+    private int shouldOpen = Animator.StringToHash("shouldOpen");
+    private int cantOpen = Animator.StringToHash("cantOpen");
 
     /// <summary>
     /// Using a constructor here to initialize displayText in the editor.
@@ -74,9 +75,11 @@ public class Door : InteractiveObject
     {
         if (!isOpen)
         {
-            if(isLocked && !HasKey)
+            
+            if (isLocked && !HasKey)
             {
                 audioSource.clip = lockedAudioClip;
+                animator.SetBool(cantOpen, true);
             }
             else // if it's not locked, or if it's locked and we have the key...
             {
@@ -88,6 +91,7 @@ public class Door : InteractiveObject
             }
             base.InteractWith(); // This plays a sound effect!
         }
+        animator.SetBool(cantOpen, false);
     }
 
     private void UnlockDoor()
