@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+
 
 [RequireComponent(typeof(Animator))]
 public class Door : InteractiveObject
@@ -24,6 +26,13 @@ public class Door : InteractiveObject
     [Tooltip("Play this audio clip when the player interacts with a locked door while owning the key.")]
     [SerializeField]
     private AudioClip openAudioClip;
+
+    [Tooltip("Black screen for the end of the game.")]
+    [SerializeField]
+    private GameObject blackScreen;
+
+    [SerializeField]
+    private bool endingDoor;
 
     //public override string DisplayText => isLocked ? lockedDisplayText : base.DisplayText;
 
@@ -92,6 +101,21 @@ public class Door : InteractiveObject
             base.InteractWith(); // This plays a sound effect!
         }
         animator.SetBool(cantOpen, false);
+
+        if (endingDoor == true)
+        {
+            
+            audioSource.clip = openAudioClip;
+            blackScreen.SetActive(true);
+            displayText = "To be continued...";
+            Invoke("LoadMainMenu", 4);
+        }
+
+    }
+
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("Title Screen");
     }
 
     private void UnlockDoor()
