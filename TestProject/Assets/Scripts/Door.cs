@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+
 
 [RequireComponent(typeof(Animator))]
 public class Door : InteractiveObject
@@ -25,6 +27,13 @@ public class Door : InteractiveObject
     [SerializeField]
     private AudioClip openAudioClip;
 
+    [Tooltip("Black screen for the end of the game.")]
+    [SerializeField]
+    private GameObject blackScreen;
+
+    [SerializeField]
+    private bool endingDoor;
+
     //public override string DisplayText => isLocked ? lockedDisplayText : base.DisplayText;
 
     //This is an alternative way to express the same logic as above.
@@ -47,7 +56,8 @@ public class Door : InteractiveObject
     private Animator animator;
     private bool isOpen = false;
     private bool isLocked;
-    private int shouldOpen = Animator.StringToHash("shouldOpen"); 
+    private int shouldOpen = Animator.StringToHash("shouldOpen");
+    private int cantOpen = Animator.StringToHash("cantOpen");
 
     /// <summary>
     /// Using a constructor here to initialize displayText in the editor.
@@ -74,9 +84,11 @@ public class Door : InteractiveObject
     {
         if (!isOpen)
         {
-            if(isLocked && !HasKey)
+            
+            if (isLocked && !HasKey)
             {
                 audioSource.clip = lockedAudioClip;
+                animator.SetBool(cantOpen, true);
             }
             else // if it's not locked, or if it's locked and we have the key...
             {
@@ -88,6 +100,22 @@ public class Door : InteractiveObject
             }
             base.InteractWith(); // This plays a sound effect!
         }
+        animator.SetBool(cantOpen, false);
+
+        if (endingDoor == true)
+        {
+            
+            audioSource.clip = openAudioClip;
+            blackScreen.SetActive(true);
+            displayText = "To be continued...";
+            Invoke("LoadMainMenu", 4);
+        }
+
+    }
+
+    private void LoadMainMenu()
+    {
+        SceneManager.LoadScene("Title Screen");
     }
 
     private void UnlockDoor()
